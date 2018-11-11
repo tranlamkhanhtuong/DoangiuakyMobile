@@ -27,6 +27,7 @@ import uitcourse.j11.nt118.appmusichtcl.Service.APIService;
 import uitcourse.j11.nt118.appmusichtcl.Service.Dataservice;
 
 public class Fragemnt_Banner extends Fragment {
+    // Khai báo biến để ánh xạ
     View view;
     ViewPager viewPager;
     CircleIndicator circleIndicator;
@@ -43,6 +44,7 @@ public class Fragemnt_Banner extends Fragment {
         return view;
     }
 
+    // ánh xạ
     private void anhxa() {
         viewPager = view.findViewById(R.id.viewpager);
         circleIndicator = view.findViewById(R.id.indicatordefault);

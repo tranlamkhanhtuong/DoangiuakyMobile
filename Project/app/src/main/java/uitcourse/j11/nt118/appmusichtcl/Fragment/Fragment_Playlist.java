@@ -31,18 +31,24 @@ import uitcourse.j11.nt118.appmusichtcl.Service.Dataservice;
 
 public class Fragment_Playlist extends Fragment{
 
+    // Khai báo các view
     View view;
     ListView lvplaylist;
     TextView txttitleplaylist, txtviewxemthemplaylist;
+    // Playlist đã custome
     PlaylistAdapter playlistAdapter ;
+    // Mảng để lưu dữ liệu
     ArrayList<Playlist> mangplaylist;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
+        // Ánh xạ
         view = inflater.inflate(R.layout.fragment_playlist,container,false);
         lvplaylist = view.findViewById(R.id.listviewplaylist);
         txttitleplaylist = view.findViewById(R.id.textviewtitleplaylist);
         txtviewxemthemplaylist = view.findViewById(R.id.textviewviewmoreplaylist);
+
         GetData();
         txtviewxemthemplaylist.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -64,8 +70,10 @@ public class Fragment_Playlist extends Fragment{
             @Override
             public void onResponse(Call<List<Playlist>> call, Response<List<Playlist>> response) {
                 mangplaylist = (ArrayList<Playlist>) response.body();
+                // Đưa dữ liệu vào các listview adapter
                 playlistAdapter = new PlaylistAdapter(getActivity(),android.R.layout.simple_list_item_1,mangplaylist);
                 lvplaylist.setAdapter(playlistAdapter);
+                // Chỉnh sửa chiều cao cho listview
                 setListViewHeightBasedOnChildren(lvplaylist);
                 lvplaylist.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -75,7 +83,6 @@ public class Fragment_Playlist extends Fragment{
                         startActivity(intent);
                     }
                 });
-
             }
 
             @Override

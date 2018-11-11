@@ -10,7 +10,10 @@ import java.util.ArrayList;
 
 public class MainViewPagerAdapter extends FragmentPagerAdapter {
 
+    // Danh sách các fragment để đưa vào ViewPager
     private ArrayList<Fragment> arrayFragment = new ArrayList<>();
+
+    // Danh sách title của fragment
     private ArrayList<String> arraytitle = new ArrayList<>();
     public MainViewPagerAdapter(FragmentManager fm) {
         super(fm);

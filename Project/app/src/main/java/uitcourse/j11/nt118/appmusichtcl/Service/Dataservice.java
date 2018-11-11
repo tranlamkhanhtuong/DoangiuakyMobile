@@ -17,6 +17,7 @@ import uitcourse.j11.nt118.appmusichtcl.Model.Playlist;
 import uitcourse.j11.nt118.appmusichtcl.Model.Quangcao;
 import uitcourse.j11.nt118.appmusichtcl.Model.TheLoai;
 
+// Gui va nhan tu server
 public interface Dataservice {
 
     @GET("songbanner.php")

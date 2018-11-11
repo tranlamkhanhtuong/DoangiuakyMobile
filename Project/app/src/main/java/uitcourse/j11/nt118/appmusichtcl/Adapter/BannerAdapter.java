@@ -30,6 +30,7 @@ public class BannerAdapter extends PagerAdapter {
         this.arrayListbanner = arrayListbanner;
     }
 
+    // Có bao nhiêu page trong pager ?
     @Override
     public int getCount() {
         return arrayListbanner.size();
@@ -40,11 +41,13 @@ public class BannerAdapter extends PagerAdapter {
         return view == object;
     }
 
+    // Định hình cho mỗi view
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, final int position) {
         final LayoutInflater inflater = LayoutInflater.from(context);
 
+        // Ánh xạ
         View view = inflater.inflate(R.layout.dong_banner,null);
         ImageView imgbackgroundbanner = view.findViewById(R.id.imageviewbackgroundbanner);
         ImageView imgsongbanner = view.findViewById(R.id.imageviewbanner);
@@ -66,10 +69,12 @@ public class BannerAdapter extends PagerAdapter {
             }
         });
 
+        // Thêm view của pager
         container.addView(view);
         return view;
     }
 
+    // xóa đi view đã hiển thị.
     @Override
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);

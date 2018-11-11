@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".Activity.MainActivity">
-
+    <!-- Vuốt chuyển màn hình khác sang ngang -->
     <android.support.v4.view.ViewPager
         android:id="@+id/myViewPaper"
         android:layout_height="0dp"
@@ -14,6 +14,7 @@
          android:layout_weight="1">
     </android.support.v4.view.ViewPager>
 
+    <!-- Vuốt chuyển màn hình bằn tab-->
     <android.support.design.widget.TabLayout
 
         android:id="@+id/myTabLayout"

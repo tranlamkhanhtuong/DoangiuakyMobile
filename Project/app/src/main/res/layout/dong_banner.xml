@@ -35,7 +35,7 @@
         <TextView
             android:textStyle="bold"
             android:textColor="#f93c3c"
-            android:text="TRan Tuong"
+            android:text="Tran Tuong"
             android:id="@+id/textviewtitlebannerbaihat"
             android:layout_toRightOf="@id/imageviewbanner"
             android:layout_alignTop="@id/imageviewbanner"

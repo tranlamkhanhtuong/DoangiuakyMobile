@@ -20,13 +20,16 @@ public class APIRetrofitClient {
 
     public static Retrofit getClient(String base_url)
     {
+        // Cac giao thuc mang
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
-                .readTimeout(10000,TimeUnit.MILLISECONDS)
-                .writeTimeout(10000,TimeUnit.MILLISECONDS)
-                .connectTimeout(10000,TimeUnit.MILLISECONDS)
+                .readTimeout(10000,TimeUnit.MILLISECONDS) // Ngat khi cho server tra du lieu de doc qua lau
+                .writeTimeout(10000,TimeUnit.MILLISECONDS) //
+                .connectTimeout(10000,TimeUnit.MILLISECONDS) // Ngat ket noi khi doi qua lau
                 .retryOnConnectionFailure(true)
                 .protocols(Arrays.asList(Protocol.HTTP_1_1))
                 .build();
+
+        // Convert cac bien cua API
         Gson gson = new GsonBuilder().setLenient().create();
 
         retrofit = new Retrofit.Builder()
