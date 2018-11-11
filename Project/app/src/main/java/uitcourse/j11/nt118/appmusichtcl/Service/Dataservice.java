@@ -2,11 +2,13 @@ package uitcourse.j11.nt118.appmusichtcl.Service;
 
 import java.util.List;
 
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Url;
 import uitcourse.j11.nt118.appmusichtcl.Model.Album;
 import uitcourse.j11.nt118.appmusichtcl.Model.Baihat;
 import uitcourse.j11.nt118.appmusichtcl.Model.ChuDe;
@@ -70,6 +72,9 @@ public interface Dataservice {
     @FormUrlEncoded
     @POST("searchbaihat.php")
     Call<List<Baihat>> GetSearchBaihat(@Field("tukhoa") String tukhoa);
+
+    @GET
+    Call<ResponseBody> DownloadBaiHat(@Url String fileUrl);
 
 
 

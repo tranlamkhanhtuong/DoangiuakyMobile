@@ -120,6 +120,15 @@
                 android:src="@drawable/iconrepeat"
                 android:layout_width="40dp"
                 android:layout_height="40dp" />
+
+            <ImageButton
+                android:layout_marginRight="15dp"
+                android:id="@+id/imagebuttodownload"
+                android:background="@null"
+                android:scaleType="fitXY"
+                android:src="@drawable/icondownload3"
+                android:layout_width="40dp"
+                android:layout_height="40dp" />
         </LinearLayout>
 
     </LinearLayout>

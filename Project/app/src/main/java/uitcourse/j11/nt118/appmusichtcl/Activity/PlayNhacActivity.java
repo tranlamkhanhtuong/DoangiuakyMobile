@@ -1,11 +1,14 @@
 package uitcourse.j11.nt118.appmusichtcl.Activity;
 
+import android.app.DownloadManager;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioAttributes;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.StrictMode;
 import android.support.v4.view.ViewPager;
@@ -20,16 +23,26 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Random;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import uitcourse.j11.nt118.appmusichtcl.Adapter.Fragment_Danh_Sach_Cac_Bai_Hat;
 import uitcourse.j11.nt118.appmusichtcl.Adapter.ViewPagerPlaylistnhac;
 import uitcourse.j11.nt118.appmusichtcl.Fragment.Fragment_Dia_Nhac;
 import uitcourse.j11.nt118.appmusichtcl.Model.Baihat;
 import uitcourse.j11.nt118.appmusichtcl.R;
+import uitcourse.j11.nt118.appmusichtcl.Service.APIService;
+import uitcourse.j11.nt118.appmusichtcl.Service.Dataservice;
 
 public class PlayNhacActivity extends AppCompatActivity {
 
@@ -37,7 +50,7 @@ public class PlayNhacActivity extends AppCompatActivity {
     Toolbar toolbarplaynhac;
     TextView txtTimesong, txtTotaltimesong;
     SeekBar sktime;
-    ImageView imgplay, imgrepeat,imgnext,imgpre,imgrandom;
+    ImageView imgplay, imgrepeat,imgnext,imgpre,imgrandom,imgdownload;
     ViewPager viewPagerplaynhac;
 
 
@@ -66,6 +79,44 @@ public class PlayNhacActivity extends AppCompatActivity {
 
     private void eventClick() {
 
+        imgdownload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+
+                Uri url=Uri.parse(mangbaihat.get(position).getLinkBaiHat());
+                DownloadManager.Request request = new DownloadManager.Request(url);
+                request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, mangbaihat.get(position).getTenBaiHat());
+                request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); // to notify when download is complete
+                //request.allowScanningByMediaScanner();// if you want to be available from media players
+                DownloadManager manager = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
+                manager.enqueue(request);
+
+                /*
+                Dataservice dataservice = APIService.getService();
+                Call<ResponseBody> call = dataservice.DownloadBaiHat(mangbaihat.get(position).getLinkBaiHat());
+                Log.d("TUONG",mangbaihat.get(position).getLinkBaiHat());
+                call.enqueue(new Callback<ResponseBody>() {
+                    @Override
+                    public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                        if (response.isSuccessful()) {
+                            Log.d("TUONG", "server contacted and has file");
+
+                            boolean writtenToDisk = writeResponseBodyToDisk(response.body(),mangbaihat.get(position).getTenBaiHat());
+
+                            Log.d("TUONG", "file download was a success? " + writtenToDisk);
+                        } else {
+                            Log.d("TUONG", "server contact failed");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ResponseBody> call, Throwable t) {
+
+                    }
+                });*/
+            }
+        });
         final Handler handler = new Handler();
         handler.postDelayed(new Runnable() {
             @Override
@@ -348,6 +399,7 @@ public class PlayNhacActivity extends AppCompatActivity {
         imgnext = findViewById(R.id.imagebuttonnext);
         imgrandom = findViewById(R.id.imagebuttonsuffle);
         imgpre = findViewById(R.id.imagebuttonpre);
+        imgdownload = findViewById(R.id.imagebuttodownload);
         viewPagerplaynhac = findViewById(R.id.viewpagerplaynhac);
 
         setSupportActionBar(toolbarplaynhac);
@@ -531,5 +583,57 @@ public class PlayNhacActivity extends AppCompatActivity {
                 }
             }
         },1000);
+
+    }
+
+    private boolean writeResponseBodyToDisk(ResponseBody body,String namefile) {
+        try {
+            // todo change the file location/name according to your needs
+            Log.d("TUONG",namefile+".mp3");
+            File futureStudioIconFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS), namefile + ".mp3");
+
+            InputStream inputStream = null;
+            OutputStream outputStream = null;
+
+            try {
+                byte[] fileReader = new byte[4096];
+
+                long fileSize = body.contentLength();
+                long fileSizeDownloaded = 0;
+
+                inputStream = body.byteStream();
+                outputStream = new FileOutputStream(futureStudioIconFile);
+
+                while (true) {
+                    int read = inputStream.read(fileReader);
+
+                    if (read == -1) {
+                        break;
+                    }
+
+                    outputStream.write(fileReader, 0, read);
+
+                    fileSizeDownloaded += read;
+
+                    Log.d("TUONG", "file download: " + fileSizeDownloaded + " of " + fileSize);
+                }
+
+                outputStream.flush();
+
+                return true;
+            } catch (IOException e) {
+                return false;
+            } finally {
+                if (inputStream != null) {
+                    inputStream.close();
+                }
+
+                if (outputStream != null) {
+                    outputStream.close();
+                }
+            }
+        } catch (IOException e) {
+            return false;
+        }
     }
 }
